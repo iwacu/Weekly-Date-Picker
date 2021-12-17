@@ -1,6 +1,7 @@
 library weekly_date_picker;
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:week_of_year/week_of_year.dart';
 import "package:weekly_date_picker/datetime_apis.dart";
 
@@ -94,20 +95,10 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
+      height: 84,
       color: widget.backgroundColor,
       child: Row(
         children: <Widget>[
-          widget.enableWeeknumberText
-              ? Container(
-                  padding: EdgeInsets.all(8.0),
-                  color: widget.weeknumberColor,
-                  child: Text(
-                    '${widget.weekdayText} $_weeknumberInSwipe',
-                    style: TextStyle(color: widget.weeknumberTextColor),
-                  ),
-                )
-              : Container(),
           Expanded(
             child: PageView.builder(
               controller: _controller,
@@ -145,6 +136,7 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
     return weekdays;
   }
 
+  DateFormat formatter = DateFormat('MMM');
   Widget _dateButton(DateTime dateTime) {
     final String weekday = widget.weekdays[dateTime.weekday - 1];
     final bool isSelected = dateTime.isSameDateAs(widget.selectedDay);
@@ -162,6 +154,14 @@ class _WeeklyDatePickerState extends State<WeeklyDatePicker> {
                 padding: EdgeInsets.only(bottom: 4.0),
                 child: Text(
                   '$weekday',
+                  style:
+                      TextStyle(fontSize: 12.0, color: widget.weekdayTextColor),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4.0),
+                child: Text(
+                  '${formatter.format(dateTime)}',
                   style:
                       TextStyle(fontSize: 12.0, color: widget.weekdayTextColor),
                 ),
